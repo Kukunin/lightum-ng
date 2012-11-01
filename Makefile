@@ -12,7 +12,7 @@ bindir = $(prefix)/usr/bin
 docdir = $(prefix)/usr/share/doc
 mandir = $(prefix)/usr/share/man
 
-OBJ=src/main.o src/screen/xbacklight.o src/light/apple.o
+OBJ=src/main.o src/screen/xbacklight.o src/light/apple.o src/kbd/upower.o
 BIN=lightum
 
 all: ${OBJ}
