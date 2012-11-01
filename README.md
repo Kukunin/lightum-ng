@@ -6,16 +6,16 @@ lightum-ng - Automatic light sensor daemon
 
 Lightum-ng is the fork of [lightum](https://github.com/poliva/lightum) porject.
 
-Lightum-ng is a daemon to control the keyboard brightness and screen backlight on computer based on several inputs: light sensors, webcam or part of day.
+Lightum-ng is a daemon to control the keyboard and screen backlight, screen temperature on computer based on several inputs: light sensors, webcam or position of the sun.
 
 Original lightum project is aimed only on Macbook notebooks, has only several backends and has hard to extend architecture (IMHO).
-It works fine on the Macbook with Gnome or KDE environments.
+It works fine on the Macbook with Gnome or KDE environments. You can use it now.
 
-Lightum-ng is aimed to support more computers, more sensors and backends. It will have the easy to extend architecture, written on C++ with minimum dependencies (Only plugins will have some specific dependencies. You will able to compile it with various set of plugins).
+Lightum-ng is aimed to support more platforms, operation systems, sensors and backends. It will have the easy to extend architecture, written on C++ with minimum dependencies (Only plugins will have some specific dependencies. You will able to compile it with various set of plugins).
 
 Features
 -------------------
-Project will be able to autocontrol the
+Daemon will be able to autocontrol the
 
 - screen backlight
 - keyboard brightness
@@ -25,7 +25,10 @@ based on the different inputs
 
 - light sensors
 - webcam
-- part of day
+- position of the sun
+
+Also, daemon will dim the screen and keyboard backlight when user is inactive.
+
 
 Development
 -------------------
