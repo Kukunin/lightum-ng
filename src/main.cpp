@@ -5,31 +5,31 @@
 #include "kbd/backend.h"
 #include "kbd/upower.h"
 
-#include <cstdio>
+#include <iostream>
 
 int main() {
 
 	Light::Backend *light = new Light::Apple();
 	if ( light->isWorking() ) {
-		printf("Current light is %d\n",light->light());
+		std::cout << "Current light is " << light->light() << std::endl;
 	} else {
-		fprintf(stderr, "Light backend isn't available");
+		std::cerr << "Light backend isn't available" << std::endl;
 	}
 	delete light;
 
 	Screen::Backend *screen = new Screen::XBacklight();
 	if ( screen->isWorking() ) {
-		printf("Current backlight is %d\n",screen->backlight());
+		std::cout << "Current backlight is " << screen->backlight() << std::endl;
 	} else {
-		fprintf(stderr, "Backlight backend isn't available");
+		std::cerr << "Backlight backend isn't available" << std::endl;
 	}
 	delete screen;
 
 	Keyboard::Backend *kbd = new Keyboard::UPower();
 	if ( kbd->isWorking() ) {
-		printf("Current keyboard backlight is %d\n",kbd->backlight());
+		std::cout << "Current keyboard backlight is " << kbd->backlight() << std::endl;
 	} else {
-		fprintf(stderr, "Light backend isn't available");
+		std::cerr << "Keyboard backlight backend isn't available" << std::endl;
 	}
 	delete kbd;
 
