@@ -7,6 +7,9 @@ using namespace Screen;
 
 const char * XBacklight::CMD = "xbacklight";
 
+XBacklight::~XBacklight() {
+
+}
 /**
 ToDo rewrite on XCB util
 See xbacklight sources

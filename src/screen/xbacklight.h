@@ -7,6 +7,7 @@ namespace Screen {
 
 	class XBacklight : public Backend {
 		public:
+			virtual ~XBacklight();
 			int backlight();
 			void backlight(int backlight);
 			bool isWorking();

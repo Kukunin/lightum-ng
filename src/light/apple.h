@@ -9,6 +9,7 @@ namespace Light {
 
 	class Apple : public Backend {
 		public:
+			virtual ~Apple();
 			int light();
 			bool isWorking();
 			int weight();

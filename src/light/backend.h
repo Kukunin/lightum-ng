@@ -4,7 +4,7 @@
 namespace Light {
 	class Backend {
 		public:
-			virtual ~Backend() = 0;
+			virtual ~Backend() {};
 			/**
 			 * @returns: light value between 0 and 100
 			 */

@@ -4,7 +4,7 @@
 namespace Screen {
 	class Backend {
 		public:
-			virtual ~Backend() = 0;
+			virtual ~Backend() {};
 			/**
 			 * @returns: screen backlight value between 0 and 100
 			 */
