@@ -6,14 +6,14 @@
 namespace Screen {
 
 	class XBacklight : public Backend {
-	public:
-		int backlight();
-		void backlight(int backlight);
-		bool isWorking();
-		int weight();
+		public:
+			int backlight();
+			void backlight(int backlight);
+			bool isWorking();
+			int weight();
 
-	private:
-		static const char * cmd;
+		private:
+			static const char * CMD;
 	};
 }
 

@@ -1,18 +1,14 @@
-#ifndef SCREEN_BACKEND_H
-#define SCREEN_BACKEND_H
+#ifndef LIGHT_BACKEND_H
+#define LIGHT_BACKEND_H
 
-namespace Screen {
+namespace Light {
 	class Backend {
 		public:
 			virtual ~Backend() = 0;
 			/**
-			 * @returns: screen backlight value between 0 and 100
+			 * @returns: light value between 0 and 100
 			 */
-			virtual int backlight() = 0;
-			/**
-			 * @param: backlight value between 0 and 100
-			 */
-			virtual void backlight(int backlight) = 0;
+			virtual int light() = 0;
 			/**
 			 * @returns: whether backend is working on this system or not
 			 */
@@ -21,6 +17,7 @@ namespace Screen {
 			 * @returns: weight of backend. Used when optimal backend is choosing
 			 */
 			virtual int weight() = 0;
+
 	};
 }
 
