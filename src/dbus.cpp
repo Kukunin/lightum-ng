@@ -1,4 +1,5 @@
 #include "dbus.h"
+#include "config.h"
 
 #include <cstdio>
 
@@ -60,5 +61,7 @@ GVariant* DBus::query(
 }
 
 void DBus::printError() {
-	fprintf(stderr, "%s\n", error->message);
+	if ( Core::Config::getInstance()->verbose() ) {
+		fprintf(stderr, "%s\n", error->message);
+	}
 }

@@ -45,7 +45,7 @@ void UPower::backlight(int backlight) {
 			"SetBrightness",
 			g_variant_new("(i)",backlight));
 
-	if ( !res == NULL ) {
+	if ( res != NULL ) {
 		g_variant_unref( res );
 	}
 }
