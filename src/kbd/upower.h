@@ -16,6 +16,7 @@ namespace Keyboard {
 			void backlight(int backlight);
 			bool isWorking();
 			int weight();
+			static Backend* create();
 	};
 }
 

@@ -30,3 +30,6 @@ int UPower::weight() {
 	return 10;
 }
 
+Backend* UPower::create() {
+	return new UPower();
+}

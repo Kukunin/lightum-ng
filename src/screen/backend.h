@@ -2,6 +2,7 @@
 #define SCREEN_BACKEND_H
 
 namespace Screen {
+
 	class Backend {
 		public:
 			virtual ~Backend() {};
@@ -21,7 +22,11 @@ namespace Screen {
 			 * @returns: weight of backend. Used when optimal backend is choosing
 			 */
 			virtual int weight() = 0;
+
+			static Backend* create();
 	};
+
+	typedef Backend* (*CreateBackend)();
 }
 
 #endif

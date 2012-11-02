@@ -26,11 +26,13 @@ DBus::DBus( GBusType type, const char * busName, const char * objectPath, const 
 
 	//ToDo make DBus connection global. Init and Close in one place
 	//Init private DBus connection
+	error = NULL;
 	gchar* address = g_dbus_address_get_for_bus_sync (type, NULL, &error);
 
 	if (address == NULL) {
 		printError();
 	} else {
+		error = NULL;
 		conn = g_dbus_connection_new_for_address_sync (address,
 				(GDBusConnectionFlags)(G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_CLIENT
 					| G_DBUS_CONNECTION_FLAGS_MESSAGE_BUS_CONNECTION),
@@ -47,6 +49,7 @@ DBus::DBus( GBusType type, const char * busName, const char * objectPath, const 
 }
 DBus::~DBus() {
 	if ( !g_dbus_connection_is_closed(conn) ) {
+		error = NULL;
 		if (!g_dbus_connection_close_sync(conn,NULL,&error) ) {
 			printError();
 		}
@@ -59,6 +62,7 @@ DBus::~DBus() {
 
 GVariant* DBus::query( const gchar *method_name, GVariant *parameters) {
 
+	error = NULL;
 	GVariant *res = g_dbus_connection_call_sync(
 			conn,
 			busName,

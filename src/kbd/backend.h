@@ -2,6 +2,7 @@
 #define KBD_BACKEND_H
 
 namespace Keyboard {
+
 	class Backend {
 		public:
 			virtual ~Backend() {};
@@ -21,7 +22,11 @@ namespace Keyboard {
 			 * @returns: weight of backend. Used when optimal backend is choosing
 			 */
 			virtual int weight() = 0;
+
+			static Backend* create();
 	};
+
+	typedef Backend* (*CreateBackend)();
 }
 
 #endif

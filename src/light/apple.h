@@ -13,6 +13,7 @@ namespace Light {
 			int light();
 			bool isWorking();
 			int weight();
+			static Backend* create();
 
 		protected:
 			/**

@@ -28,3 +28,6 @@ int Gnome::weight() {
 	return 3;
 }
 
+Backend* Gnome::create() {
+	return new Gnome();
+}

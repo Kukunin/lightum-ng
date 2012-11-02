@@ -12,6 +12,7 @@ namespace Screen {
 			void backlight(int backlight);
 			bool isWorking();
 			int weight();
+			static Backend* create();
 
 		private:
 			static const char * CMD;

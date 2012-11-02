@@ -15,6 +15,7 @@ mandir = $(prefix)/usr/share/man
 OBJ=	src/main.o \
 		src/dbus.o \
 		src/config.o \
+		src/backendmanager.o \
 		src/screen/xbacklight.o \
 		src/screen/gnome.o \
 		src/screen/kde.o \

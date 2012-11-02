@@ -2,6 +2,7 @@
 #define LIGHT_BACKEND_H
 
 namespace Light {
+
 	class Backend {
 		public:
 			virtual ~Backend() {};
@@ -18,7 +19,10 @@ namespace Light {
 			 */
 			virtual int weight() = 0;
 
+			static Backend* create();
 	};
+
+	typedef Backend* (*CreateBackend)();
 }
 
 #endif

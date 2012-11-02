@@ -41,3 +41,7 @@ bool XBacklight::isWorking() {
 int XBacklight::weight() {
 	return 1;
 }
+
+Backend* XBacklight::create() {
+	return new XBacklight();
+}
