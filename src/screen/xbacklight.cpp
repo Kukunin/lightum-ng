@@ -39,5 +39,5 @@ bool XBacklight::isWorking() {
 	return system(name) == 0;
 }
 int XBacklight::weight() {
-	return 10;
+	return 1;
 }

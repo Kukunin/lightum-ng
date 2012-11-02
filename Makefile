@@ -16,6 +16,8 @@ OBJ=	src/main.o \
 		src/dbus.o \
 		src/config.o \
 		src/screen/xbacklight.o \
+		src/screen/gnome.o \
+		src/screen/kde.o \
 		src/light/apple.o \
 		src/kbd/upower.o
 
