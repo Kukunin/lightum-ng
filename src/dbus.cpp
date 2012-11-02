@@ -64,6 +64,28 @@ GVariant* DBus::query( const gchar *method_name, GVariant *parameters) {
 	return res;
 }
 
+void DBus::exec( const gchar *method_name, GVariant *parameters) {
+	GVariant *res = query(method_name, parameters);
+
+	if ( res != NULL ) {
+		g_variant_unref( res );
+	}
+}
+
+int DBus::getInt(const gchar *method_name) {
+	GVariant *res = query(method_name, NULL );
+
+	if ( res == NULL ) {
+		return -1;
+	}
+
+	int value;
+	g_variant_get(res, "(i)", &value);
+	g_variant_unref( res );
+
+	return value;
+}
+
 void DBus::printError() {
 	if ( Core::Config::getInstance()->verbose() ) {
 		fprintf(stderr, "%s\n", error->message);

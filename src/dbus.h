@@ -14,6 +14,15 @@ namespace Core {
 
 		protected:
 			GVariant* query( const gchar *method_name, GVariant *parameters);
+			/**
+			 * Make API Call and convert result to int32
+			 * @return -1 on error or result in int32 type
+			 */
+			int getInt(const gchar *method_name);
+			/**
+			 * Make API Call with arguments without any result
+			 */
+			void exec( const gchar *method_name, GVariant *parameters);
 
 			void printError();
 

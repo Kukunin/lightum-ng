@@ -13,25 +13,11 @@ Gnome::~Gnome() {
 }
 
 int Gnome::backlight() {
-	GVariant *res = query("GetPercentage", NULL);
-
-	if ( res == NULL ) {
-		return -1;
-	}
-
-	int backlight;
-	g_variant_get(res, "(i)", &backlight);
-	g_variant_unref( res );
-
-	return backlight;
+	return getInt("GetPercentage");
 }
 
 void Gnome::backlight(int backlight) {
-	GVariant *res = query("SetPercentage", g_variant_new("(i)",backlight));
-
-	if ( res != NULL ) {
-		g_variant_unref( res );
-	}
+	exec("SetPercentage", g_variant_new("(i)",backlight));
 }
 
 bool Gnome::isWorking() {

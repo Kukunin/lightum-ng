@@ -14,25 +14,11 @@ KDE::~KDE() {
 }
 
 int KDE::backlight() {
-	GVariant *res = query("getBrightness", NULL);
-
-	if ( res == NULL ) {
-		return -1;
-	}
-
-	int backlight;
-	g_variant_get(res, "(i)", &backlight);
-	g_variant_unref( res );
-
-	return backlight;
+	return getInt("getBrightness");
 }
 
 void KDE::backlight(int backlight) {
-	GVariant *res = query("setBrightness", g_variant_new("(i)",backlight));
-
-	if ( res != NULL ) {
-		g_variant_unref( res );
-	}
+	exec("setBrightness", g_variant_new("(i)",backlight));
 }
 
 bool KDE::isWorking() {

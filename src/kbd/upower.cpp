@@ -15,25 +15,11 @@ UPower::~UPower() {
 }
 
 int UPower::backlight() {
-	GVariant *res = query("GetBrightness", NULL );
-
-	if ( res == NULL ) {
-		return -1;
-	}
-
-	int backlight;
-	g_variant_get(res, "(i)", &backlight);
-	g_variant_unref( res );
-
-	return backlight;
+	return getInt("GetBrightness");
 }
 
 void UPower::backlight(int backlight) {
-	GVariant *res = query("SetBrightness", g_variant_new("(i)",backlight));
-
-	if ( res != NULL ) {
-		g_variant_unref( res );
-	}
+	exec("SetBrightness", g_variant_new("(i)",backlight));
 }
 
 bool UPower::isWorking() {
