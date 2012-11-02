@@ -1,7 +1,7 @@
 DESTDIR?=/
 SHELL = /bin/sh
 CXX?=g++
-CXXFLAGS = `pkg-config --cflags gio-2.0` -Wall -Wextra -Wwrite-strings -O -g
+CXXFLAGS = `pkg-config --cflags gio-2.0` -Wall -Wextra -Wwrite-strings -O -g -std=c++0x
 LDFLAGS= `pkg-config --libs gio-2.0`
 INSTALL = /usr/bin/install -c
 INSTALLDATA = /usr/bin/install -c -m 644

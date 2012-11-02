@@ -42,6 +42,6 @@ int XBacklight::weight() {
 	return 1;
 }
 
-Backend* XBacklight::create() {
-	return new XBacklight();
+std::unique_ptr<Backend> XBacklight::create() {
+	return std::unique_ptr<Backend>(new XBacklight());
 }

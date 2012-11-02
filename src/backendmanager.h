@@ -6,13 +6,10 @@
 #include "kbd/backend.h"
 
 #include <map>
+#include <memory>
 #include <string>
 
 namespace Core {
-
-	typedef std::map<std::string,Keyboard::CreateBackend> kbdMap;
-	typedef std::map<std::string,Screen::CreateBackend> screenMap;
-	typedef std::map<std::string,Light::CreateBackend> lightMap;
 
 	/**
 	 * Checks all available backends
@@ -23,20 +20,17 @@ namespace Core {
 	 */
 	class BackendManager {
 		public:
-			static BackendManager* getInstance();
-			Screen::Backend *getScreenBackend();
-			Light::Backend *getLightBackend();
-			Keyboard::Backend *getKbdBackend();
-
-		private:
 			BackendManager();
 			~BackendManager();
+			std::unique_ptr<Screen::Backend> getScreenBackend();
+			std::unique_ptr<Light::Backend> getLightBackend();
+			std::unique_ptr<Keyboard::Backend> getKbdBackend();
 
-			kbdMap kbdBackends;
-			screenMap screenBackends;
-			lightMap lightBackends;
+		private:
 
-			static BackendManager* inst;
+			std::map<std::string,Keyboard::CreateBackend> kbdBackends;
+			std::map<std::string,Screen::CreateBackend> screenBackends;
+			std::map<std::string,Light::CreateBackend> lightBackends;
 
 	};
 }

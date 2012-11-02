@@ -8,15 +8,6 @@
 
 using namespace Core;
 
-BackendManager* BackendManager::inst = NULL;
-
-BackendManager* BackendManager::getInstance() {
-	if ( inst == NULL ) {
-		inst = new BackendManager();
-	}
-	return inst;
-}
-
 BackendManager::BackendManager() {
 	kbdBackends["UPower"] = &Keyboard::UPower::create;
 
@@ -31,71 +22,56 @@ BackendManager::~BackendManager() {
 
 }
 
-Screen::Backend* BackendManager::getScreenBackend() {
-	screenMap::iterator it;
+std::unique_ptr<Screen::Backend> BackendManager::getScreenBackend() {
 
-	Screen::Backend* ret = NULL;
+	std::unique_ptr<Screen::Backend> ret;
 	int weight = 0;
 
-	for ( it = screenBackends.begin(); it != screenBackends.end(); it++ ) {
-		Screen::Backend* tmp = (*it).second();
+	for ( auto it = begin(screenBackends); it != end(screenBackends); it++ ) {
+		auto tmp = (*it).second();
 		if ( tmp->isWorking() ) {
 			if ( tmp->weight() > weight ) {
 				//Assign new better backend
 				weight = tmp->weight();
-				if ( ret != NULL )
-					delete ret;
-				ret = tmp;
-				continue;
+				ret = std::move(tmp);
 			}
 		}
-		delete tmp;
 	}
 	return ret;
 }
 
-Light::Backend* BackendManager::getLightBackend() {
-	lightMap::iterator it;
+std::unique_ptr<Light::Backend> BackendManager::getLightBackend() {
 
-	Light::Backend* ret = NULL;
+	std::unique_ptr<Light::Backend> ret;
 	int weight = 0;
 
-	for ( it = lightBackends.begin(); it != lightBackends.end(); it++ ) {
-		Light::Backend* tmp = (*it).second();
+	for ( auto it = begin(lightBackends); it != end(lightBackends); it++ ) {
+		auto tmp = (*it).second();
 		if ( tmp->isWorking() ) {
 			if ( tmp->weight() > weight ) {
 				//Assign new better backend
 				weight = tmp->weight();
-				if ( ret != NULL )
-					delete ret;
-				ret = tmp;
-				continue;
+				ret = std::move(tmp);
 			}
 		}
-		delete tmp;
 	}
 	return ret;
 }
 
-Keyboard::Backend* BackendManager::getKbdBackend() {
-	kbdMap::iterator it;
+std::unique_ptr<Keyboard::Backend> BackendManager::getKbdBackend() {
 
-	Keyboard::Backend* ret = NULL;
+	std::unique_ptr<Keyboard::Backend> ret;
 	int weight = 0;
 
-	for ( it = kbdBackends.begin(); it != kbdBackends.end(); it++ ) {
-		Keyboard::Backend* tmp = (*it).second();
+	for ( auto it = begin(kbdBackends); it != end(kbdBackends); it++ ) {
+		auto tmp = (*it).second();
 		if ( tmp->isWorking() ) {
 			if ( tmp->weight() > weight ) {
 				//Assign new better backend
 				weight = tmp->weight();
-				if ( ret != NULL )
-					delete ret;
-				ret = tmp;
-				continue;
+				ret = std::move(tmp);
 			}
 		}
-		delete tmp;
 	}
 	return ret;
 }

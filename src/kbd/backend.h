@@ -1,6 +1,8 @@
 #ifndef KBD_BACKEND_H
 #define KBD_BACKEND_H
 
+#include <memory>
+
 namespace Keyboard {
 
 	class Backend {
@@ -23,10 +25,10 @@ namespace Keyboard {
 			 */
 			virtual int weight() = 0;
 
-			static Backend* create();
+			static std::unique_ptr<Backend> create();
 	};
 
-	typedef Backend* (*CreateBackend)();
+	typedef std::unique_ptr<Backend> (*CreateBackend)();
 }
 
 #endif

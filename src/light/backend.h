@@ -1,6 +1,8 @@
 #ifndef LIGHT_BACKEND_H
 #define LIGHT_BACKEND_H
 
+#include <memory>
+
 namespace Light {
 
 	class Backend {
@@ -19,10 +21,10 @@ namespace Light {
 			 */
 			virtual int weight() = 0;
 
-			static Backend* create();
+			static std::unique_ptr<Backend> create();
 	};
 
-	typedef Backend* (*CreateBackend)();
+	typedef std::unique_ptr<Backend> (*CreateBackend)();
 }
 
 #endif

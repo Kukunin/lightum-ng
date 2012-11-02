@@ -13,7 +13,7 @@ namespace Light {
 			int light();
 			bool isWorking();
 			int weight();
-			static Backend* create();
+			static std::unique_ptr<Backend> create();
 
 		protected:
 			/**

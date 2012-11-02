@@ -1,6 +1,8 @@
 #ifndef SCREEN_BACKEND_H
 #define SCREEN_BACKEND_H
 
+#include <memory>
+
 namespace Screen {
 
 	class Backend {
@@ -23,10 +25,10 @@ namespace Screen {
 			 */
 			virtual int weight() = 0;
 
-			static Backend* create();
+			static std::unique_ptr<Backend> create();
 	};
 
-	typedef Backend* (*CreateBackend)();
+	typedef std::unique_ptr<Backend> (*CreateBackend)();
 }
 
 #endif
