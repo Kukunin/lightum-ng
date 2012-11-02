@@ -2,12 +2,9 @@
 
 using namespace Screen;
 
-const char * KDE::busName = "org.kde.Solid.PowerManagement";
-const char * KDE::objectPath = "/org/kde/Solid/PowerManagement";
-const char * KDE::interface = "org.kde.Solid.PowerManagement";
 
 KDE::KDE()
-	: DBus(G_BUS_TYPE_SESSION)
+	: DBus(G_BUS_TYPE_SESSION, "org.kde.Solid.PowerManagement", "/org/kde/Solid/PowerManagement", "org.kde.Solid.PowerManagement")
 {
 
 }
@@ -17,12 +14,7 @@ KDE::~KDE() {
 }
 
 int KDE::backlight() {
-	GVariant *res = query(
-			busName,
-			objectPath,
-			interface,
-			"getBrightness",
-			NULL);
+	GVariant *res = query("getBrightness", NULL);
 
 	if ( res == NULL ) {
 		return -1;
@@ -36,12 +28,7 @@ int KDE::backlight() {
 }
 
 void KDE::backlight(int backlight) {
-	GVariant *res = query(
-			busName,
-			objectPath,
-			interface,
-			"setBrightness",
-			g_variant_new("(i)",backlight));
+	GVariant *res = query("setBrightness", g_variant_new("(i)",backlight));
 
 	if ( res != NULL ) {
 		g_variant_unref( res );

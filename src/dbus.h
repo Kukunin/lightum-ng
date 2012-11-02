@@ -9,21 +9,21 @@ namespace Core {
 		public:
 			DBus();
 			DBus( GBusType type );
+			DBus( GBusType type, const char *, const char *, const char * );
 			virtual ~DBus();
 
 		protected:
-			GVariant* query(
-				const gchar *bus_name,
-				const gchar *object_path,
-				const gchar *interface_name,
-				const gchar *method_name,
-				GVariant *parameters);
+			GVariant* query( const gchar *method_name, GVariant *parameters);
 
 			void printError();
 
 			GDBusConnection *conn;
 			GError *error;
 			static bool typeInited;
+
+			const char * busName;
+			const char * objectPath;
+			const char * interface;
 	 };
 
 }

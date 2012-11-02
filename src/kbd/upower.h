@@ -16,11 +16,6 @@ namespace Keyboard {
 			void backlight(int backlight);
 			bool isWorking();
 			int weight();
-
-		private:
-			static const char * busName;
-			static const char * objectPath;
-			static const char * interface;
 	};
 }
 

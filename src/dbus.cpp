@@ -2,6 +2,7 @@
 #include "config.h"
 
 #include <cstdio>
+#include <iostream>
 
 using namespace Core;
 
@@ -11,6 +12,9 @@ DBus::DBus() {
 	DBus(G_BUS_TYPE_SESSION);
 }
 DBus::DBus( GBusType type ) {
+	DBus(type,"","","");
+}
+DBus::DBus( GBusType type, const char * busName, const char * objectPath, const char * interface ) {
 	if ( !typeInited ) {
 		g_type_init();
 		typeInited = true;
@@ -20,6 +24,11 @@ DBus::DBus( GBusType type ) {
 	if ( g_dbus_connection_is_closed(conn) ) {
 		printError();
 	}
+
+	this->busName = busName;
+	this->objectPath = objectPath;
+	this->interface = interface;
+
 }
 DBus::~DBus() {
 	if ( !g_dbus_connection_is_closed(conn) ) {
@@ -32,18 +41,13 @@ DBus::~DBus() {
 	}
 }
 
-GVariant* DBus::query(
-	const gchar *bus_name,
-	const gchar *object_path,
-	const gchar *interface_name,
-	const gchar *method_name,
-	GVariant *parameters)
-{
+GVariant* DBus::query( const gchar *method_name, GVariant *parameters) {
+
 	GVariant *res = g_dbus_connection_call_sync(
 			conn,
-			bus_name,
-			object_path,
-			interface_name,
+			busName,
+			objectPath,
+			interface,
 			method_name,
 			parameters,
 			NULL,

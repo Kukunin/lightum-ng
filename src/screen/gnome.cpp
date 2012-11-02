@@ -2,12 +2,8 @@
 
 using namespace Screen;
 
-const char * Gnome::busName = "org.gnome.SettingsDaemon";
-const char * Gnome::objectPath = "/org/gnome/SettingsDaemon/Power";
-const char * Gnome::interface = "org.gnome.SettingsDaemon.Power.Screen";
-
 Gnome::Gnome()
-	: DBus(G_BUS_TYPE_SESSION)
+	: DBus(G_BUS_TYPE_SESSION, "org.gnome.SettingsDaemon", "/org/gnome/SettingsDaemon/Power", "org.gnome.SettingsDaemon.Power.Screen")
 {
 
 }
@@ -17,12 +13,7 @@ Gnome::~Gnome() {
 }
 
 int Gnome::backlight() {
-	GVariant *res = query(
-			busName,
-			objectPath,
-			interface,
-			"GetPercentage",
-			NULL);
+	GVariant *res = query("GetPercentage", NULL);
 
 	if ( res == NULL ) {
 		return -1;
@@ -36,12 +27,7 @@ int Gnome::backlight() {
 }
 
 void Gnome::backlight(int backlight) {
-	GVariant *res = query(
-			busName,
-			objectPath,
-			interface,
-			"SetPercentage",
-			g_variant_new("(i)",backlight));
+	GVariant *res = query("SetPercentage", g_variant_new("(i)",backlight));
 
 	if ( res != NULL ) {
 		g_variant_unref( res );
