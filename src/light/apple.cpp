@@ -47,6 +47,6 @@ int Apple::parse(std::string value) {
 	return atoi(value.substr(1, value.find_first_of(',') - 1).c_str());
 }
 
-std::unique_ptr<Backend> Apple::create() {
-	return std::unique_ptr<Backend>(new Apple());
+std::unique_ptr<Core::Backend> Apple::create() {
+	return std::unique_ptr<Core::Backend>(new Apple());
 }

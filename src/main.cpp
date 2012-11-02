@@ -9,12 +9,12 @@ int main() {
 
 	try {
 		Core::BackendManager backendManager;
-		auto light = backendManager.getLightBackend();
-		if ( light != NULL ) {
-			std::cout << "Current light is " << light->light() << std::endl;
-		} else {
-			std::cerr << "Light backend isn't available" << std::endl;
-		}
+		auto light = backendManager.getBackend();
+		// if ( light != NULL ) {
+		// 	std::cout << "Current light is " << light->light() << std::endl;
+		// } else {
+		// 	std::cerr << "Light backend isn't available" << std::endl;
+		// }
 
 		// Screen::Backend screen = Core::BackendManager::getInstance()->getScreenBackend();
 		// if ( screen != NULL ) {

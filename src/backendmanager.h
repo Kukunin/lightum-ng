@@ -22,15 +22,12 @@ namespace Core {
 		public:
 			BackendManager();
 			~BackendManager();
-			std::unique_ptr<Screen::Backend> getScreenBackend();
-			std::unique_ptr<Light::Backend> getLightBackend();
-			std::unique_ptr<Keyboard::Backend> getKbdBackend();
+
+			std::unique_ptr<Backend> getBackend();
 
 		private:
 
-			std::map<std::string,Keyboard::CreateBackend> kbdBackends;
-			std::map<std::string,Screen::CreateBackend> screenBackends;
-			std::map<std::string,Light::CreateBackend> lightBackends;
+			std::map<std::string,Core::CreateBackend> backends;
 
 	};
 }

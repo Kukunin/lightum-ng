@@ -29,6 +29,6 @@ int KDE::weight() {
 	return 3;
 }
 
-std::unique_ptr<Backend> KDE::create() {
-	return std::unique_ptr<Backend>(new KDE());
+std::unique_ptr<Core::Backend> KDE::create() {
+	return std::unique_ptr<Core::Backend>(new KDE());
 }

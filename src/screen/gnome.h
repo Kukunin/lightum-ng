@@ -16,7 +16,7 @@ namespace Screen {
 			void backlight(int backlight);
 			bool isWorking();
 			int weight();
-			static std::unique_ptr<Backend> create();
+			static std::unique_ptr<Core::Backend> create();
 	};
 }
 

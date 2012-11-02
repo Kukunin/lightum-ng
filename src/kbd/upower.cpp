@@ -30,6 +30,6 @@ int UPower::weight() {
 	return 10;
 }
 
-std::unique_ptr<Backend> UPower::create() {
-	return std::unique_ptr<Backend>(new UPower());
+std::unique_ptr<Core::Backend> UPower::create() {
+	return std::unique_ptr<Core::Backend>(new UPower());
 }

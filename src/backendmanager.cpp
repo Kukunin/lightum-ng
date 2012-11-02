@@ -9,25 +9,28 @@
 using namespace Core;
 
 BackendManager::BackendManager() {
-	kbdBackends["UPower"] = &Keyboard::UPower::create;
+	//Keyboard backends
+	backends["UPower"] = &Keyboard::UPower::create;
 
-	screenBackends["XBacklight"] = &Screen::XBacklight::create;
-	screenBackends["Gnome"] = &Screen::Gnome::create;
-	screenBackends["KDE"] = &Screen::KDE::create;
+	//Screen backends
+	backends["XBacklight"] = &Screen::XBacklight::create;
+	backends["Gnome"] = &Screen::Gnome::create;
+	backends["KDE"] = &Screen::KDE::create;
 
-	lightBackends["Apple"] = &Light::Apple::create;
+	//Light sensor backends
+	backends["Apple"] = &Light::Apple::create;
 }
 
 BackendManager::~BackendManager() {
 
 }
 
-std::unique_ptr<Screen::Backend> BackendManager::getScreenBackend() {
+std::unique_ptr<Backend> BackendManager::getBackend() {
 
-	std::unique_ptr<Screen::Backend> ret;
+	std::unique_ptr<Backend> ret;
 	int weight = 0;
 
-	for ( auto it = begin(screenBackends); it != end(screenBackends); it++ ) {
+	for ( auto it = begin(backends); it != end(backends); it++ ) {
 		auto tmp = (*it).second();
 		if ( tmp->isWorking() ) {
 			if ( tmp->weight() > weight ) {
@@ -38,40 +41,5 @@ std::unique_ptr<Screen::Backend> BackendManager::getScreenBackend() {
 		}
 	}
 	return ret;
-}
 
-std::unique_ptr<Light::Backend> BackendManager::getLightBackend() {
-
-	std::unique_ptr<Light::Backend> ret;
-	int weight = 0;
-
-	for ( auto it = begin(lightBackends); it != end(lightBackends); it++ ) {
-		auto tmp = (*it).second();
-		if ( tmp->isWorking() ) {
-			if ( tmp->weight() > weight ) {
-				//Assign new better backend
-				weight = tmp->weight();
-				ret = std::move(tmp);
-			}
-		}
-	}
-	return ret;
-}
-
-std::unique_ptr<Keyboard::Backend> BackendManager::getKbdBackend() {
-
-	std::unique_ptr<Keyboard::Backend> ret;
-	int weight = 0;
-
-	for ( auto it = begin(kbdBackends); it != end(kbdBackends); it++ ) {
-		auto tmp = (*it).second();
-		if ( tmp->isWorking() ) {
-			if ( tmp->weight() > weight ) {
-				//Assign new better backend
-				weight = tmp->weight();
-				ret = std::move(tmp);
-			}
-		}
-	}
-	return ret;
 }

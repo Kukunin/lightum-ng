@@ -28,6 +28,6 @@ int Gnome::weight() {
 	return 3;
 }
 
-std::unique_ptr<Backend> Gnome::create() {
-	return std::unique_ptr<Backend>(new Gnome());
+std::unique_ptr<Core::Backend> Gnome::create() {
+	return std::unique_ptr<Core::Backend>(new Gnome());
 }
