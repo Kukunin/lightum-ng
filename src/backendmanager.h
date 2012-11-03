@@ -11,6 +11,12 @@
 
 namespace Core {
 
+	enum BackendType {
+		SCREEN,
+		LIGHT,
+		KEYBOARD
+	};
+
 	/**
 	 * Checks all available backends
 	 * Chooses the most optimal backend
@@ -23,12 +29,13 @@ namespace Core {
 			BackendManager();
 			~BackendManager();
 
-			std::unique_ptr<Backend> getBackend();
+			std::unique_ptr<Screen::Backend> getScreenBackend();
+			std::unique_ptr<Light::Backend> getLightBackend();
+			std::unique_ptr<Keyboard::Backend> getKbdBackend();
 
 		private:
 
-			std::map<std::string,Core::CreateBackend> backends;
-
+			std::map<BackendType, std::map<std::string,Core::CreateBackend>> backends;
 	};
 }
 

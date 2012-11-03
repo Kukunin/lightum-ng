@@ -9,27 +9,28 @@ int main() {
 
 	try {
 		Core::BackendManager backendManager;
-		auto light = backendManager.getBackend();
-		// if ( light != NULL ) {
-		// 	std::cout << "Current light is " << light->light() << std::endl;
-		// } else {
-		// 	std::cerr << "Light backend isn't available" << std::endl;
-		// }
+		try {
+			std::unique_ptr<Light::Backend> light = backendManager.getLightBackend();
+			std::cout << "Current light is " << light->light() << std::endl;
+		} catch ( const char * str) {
+			std::cerr << "Error: " << str << std::endl;
+		}
 
-		// Screen::Backend screen = Core::BackendManager::getInstance()->getScreenBackend();
-		// if ( screen != NULL ) {
-		// 	std::cout << "Current backlight is " << screen.backlight() << std::endl;
-		// } else {
-		// 	std::cerr << "Any backlight backend isn't available" << std::endl;
-		// }
+		try {
+			std::unique_ptr<Screen::Backend> screen = backendManager.getScreenBackend();
+			std::cout << "Current backlight is " << screen->backlight() << std::endl;
+		} catch ( const char * str ) {
+			std::cerr << "Error:" << str << std::endl;
+		}
 
-		// Keyboard::Backend kbd = Core::BackendManager::getInstance()->getKbdBackend();
-		// if ( kbd != NULL ) {
-		// 	std::cout << "Current keyboard backlight is " << kbd.backlight() << std::endl;
-		// } else {
-		// 	std::cerr << "Keyboard backlight backend isn't available" << std::endl;
-		// }
+		try {
+			std::unique_ptr<Keyboard::Backend> kbd = backendManager.getKbdBackend();
+			std::cout << "Current keyboard backlight is " << kbd->backlight() << std::endl;
+		} catch ( const char * str ) {
+			std::cerr << "Error:" << str << std::endl;
+		}
 	} catch( const char * str) {
+		std::cerr << "Global error: " << str << std::endl;
 
 	}
 
