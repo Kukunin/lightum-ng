@@ -22,7 +22,7 @@ OBJ=	src/main.o \
 		src/light/apple.o \
 		src/kbd/upower.o
 
-BIN=lightum
+BIN=lightum-ng
 
 all: ${OBJ}
 	$(CXX) $(CXXFLAGS) ${OBJ} $(LDFLAGS) -o ${BIN}
