@@ -6,6 +6,7 @@
 #include "kbd/backend.h"
 
 #include <map>
+#include <vector>
 #include <memory>
 #include <string>
 
@@ -35,7 +36,7 @@ namespace Core {
 
 		private:
 
-			std::map<BackendType, std::map<std::string,Core::CreateBackend>> backends;
+			std::map<BackendType, std::vector<Core::CreateBackend>> backends;
 	};
 }
 

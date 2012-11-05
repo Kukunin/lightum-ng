@@ -9,13 +9,13 @@
 using namespace Core;
 
 template <class T>
-std::unique_ptr<T> getBackend(std::map<std::string,Core::CreateBackend> backends) {
+std::unique_ptr<T> getBackend(std::vector<Core::CreateBackend> backends) {
 
 	std::unique_ptr<T> ret;
 	int weight = 0;
 
-	for ( auto it = begin(backends); it != end(backends); it++ ) {
-		auto tmp = (*it).second();
+	for ( auto it : backends ) {
+		auto tmp = it();
 		try {
 			//Try to cast to needed class
 			//We are safe to use static_cast, because
@@ -42,13 +42,15 @@ std::unique_ptr<T> getBackend(std::map<std::string,Core::CreateBackend> backends
 }
 
 BackendManager::BackendManager() {
-	backends[KEYBOARD]["UPower"] = &Keyboard::UPower::create;
+	backends[KEYBOARD] = { &Keyboard::UPower::create };
 
-	backends[SCREEN]["XBacklight"] = &Screen::XBacklight::create;
-	backends[SCREEN]["Gnome"] = &Screen::Gnome::create;
-	backends[SCREEN]["KDE"] = &Screen::KDE::create;
+	backends[SCREEN] = {
+		&Screen::XBacklight::create,
+		&Screen::Gnome::create,
+		&Screen::KDE::create
+	};
 
-	backends[LIGHT]["Apple"] = &Light::Apple::create;
+	backends[LIGHT] = { &Light::Apple::create };
 }
 
 BackendManager::~BackendManager() {
