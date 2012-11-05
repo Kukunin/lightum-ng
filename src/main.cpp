@@ -29,9 +29,12 @@ int main() {
 		} catch ( const char * str ) {
 			std::cerr << "Error:" << str << std::endl;
 		}
-	} catch( const char * str) {
+	} catch( std::string str) {
 		std::cerr << "Global error: " << str << std::endl;
-
+	} catch( std::exception str) {
+		std::cerr << "Global expcetion" << str.what() << std::endl;
+	} catch( ... ) {
+		std::cerr << "Global error without type" << std::endl;
 	}
 
 	return 0;

@@ -1,6 +1,7 @@
 #ifndef DBUS_H
 #define DBUS_H
 
+#include <memory>
 #include <gio/gio.h>
 
 namespace Core {
@@ -24,11 +25,11 @@ namespace Core {
 			 */
 			void exec( const gchar *method_name, GVariant *parameters);
 
-			void printError();
-
-			GDBusConnection *conn;
-			GError *error;
+			std::unique_ptr<GDBusConnection,std::function<void (GDBusConnection *)>> conn;
+			std::unique_ptr<GError*,std::function<void (GError **)>> error;
 			static bool typeInited;
+
+			void throwError();
 
 			const char * busName;
 			const char * objectPath;

@@ -30,10 +30,12 @@ std::unique_ptr<T> getBackend(std::map<std::string,Core::CreateBackend> backends
 			}
 		} catch (const std::bad_cast& e) {
 			continue;
+		} catch (std::string str) {
+;
 		}
 	}
 	if ( !ret ) {
-		throw "No backend is available";
+		throw std::string("No backend is available");
 	}
 
 	return ret;

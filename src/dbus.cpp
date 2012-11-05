@@ -26,45 +26,51 @@ DBus::DBus( GBusType type, const char * busName, const char * objectPath, const 
 
 	//ToDo make DBus connection global. Init and Close in one place
 	//Init private DBus connection
-	error = NULL;
-	gchar* address = g_dbus_address_get_for_bus_sync (type, NULL, &error);
 
-	if (address == NULL) {
-		printError();
+	//Smart PTR on GError
+	error = std::unique_ptr<GError*,std::function<void (GError **)>>(NULL, [](GError **e) {
+		if ( e != NULL || *e != NULL ) {
+			g_error_free(*e);
+		}
+	});
+
+	auto gfree = [](gchar * p) { g_free(p); };
+	std::unique_ptr<gchar, decltype(gfree)> address(
+			g_dbus_address_get_for_bus_sync (type, NULL, error.get()), gfree
+	);
+
+	if (!address) {
+		throwError();
 	} else {
-		error = NULL;
-		conn = g_dbus_connection_new_for_address_sync (address,
+		GDBusConnection *connection = g_dbus_connection_new_for_address_sync (address.get(),
 				(GDBusConnectionFlags)(G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_CLIENT
 					| G_DBUS_CONNECTION_FLAGS_MESSAGE_BUS_CONNECTION),
 				NULL,
 				NULL,
-				&error);
-		g_free (address);
+				error.get());
 
-		if ( conn == NULL || g_dbus_connection_is_closed(conn) ) {
-			printError();
+		//Deleter function for connection
+		conn = std::unique_ptr<GDBusConnection,std::function<void (GDBusConnection *)>>(connection, [](GDBusConnection * c) {
+			if ( !g_dbus_connection_is_closed(c) ) {
+				g_dbus_connection_close_sync(c,NULL,NULL);
+			}
+			g_object_unref(c);
+		});
+
+		if ( !conn || g_dbus_connection_is_closed(conn.get()) ) {
+			throwError();
 		}
 	}
 
 }
 DBus::~DBus() {
-	if ( !g_dbus_connection_is_closed(conn) ) {
-		error = NULL;
-		if (!g_dbus_connection_close_sync(conn,NULL,&error) ) {
-			printError();
-		}
-		g_object_unref(conn);
-	}
-	if ( error != NULL ) {
-		g_error_free(error);
-	}
+
 }
 
 GVariant* DBus::query( const gchar *method_name, GVariant *parameters) {
 
-	error = NULL;
 	GVariant *res = g_dbus_connection_call_sync(
-			conn,
+			conn.get(),
 			busName,
 			objectPath,
 			interface,
@@ -74,11 +80,10 @@ GVariant* DBus::query( const gchar *method_name, GVariant *parameters) {
 			G_DBUS_CALL_FLAGS_NONE,
 			-1,
 			NULL,
-			&error);
+			error.get());
 
 	if ( res == NULL ) {
-		printError();
-		return NULL;
+		throwError();
 	}
 
 	return res;
@@ -106,12 +111,10 @@ int DBus::getInt(const gchar *method_name) {
 	return value;
 }
 
-void DBus::printError() {
-	if ( error != NULL ) {
-		if (Core::Config::getInstance()->verbose()) {
-			std::cerr << error->message << std::endl;
+void DBus::throwError() {
+	if ( error ) {
+		if ( *(error.get()) != NULL ) {
+			throw std::string((*(error.get()))->message);
 		}
-		g_error_free(error);
-		error = NULL;
 	}
 }
