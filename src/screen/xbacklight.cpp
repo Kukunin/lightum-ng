@@ -1,5 +1,6 @@
 #include <cstdio>
 #include <cstdlib>
+#include <string>
 
 #include "xbacklight.h"
 
@@ -15,17 +16,20 @@ ToDo rewrite on XCB util
 See xbacklight sources
 **/
 int XBacklight::backlight() {
-	FILE * f = popen( CMD, "r" );
-	if ( f == 0 ) {
-		fprintf( stderr, "Could not execute\n" );
-		return -1;
+
+	auto deleter = [](FILE * f) { pclose(f); };
+	std::unique_ptr<FILE, decltype(deleter)> f(
+		popen( CMD, "r" ), deleter
+	);
+
+	if ( f.get() == 0 ) {
+		throw std::string("Can't open xbacklight");
 	}
 	const int BUFSIZE = 1000;
 	char buf[ BUFSIZE ];
-	while( fgets( buf, BUFSIZE,  f ) ) {
+	while( fgets( buf, BUFSIZE,  f.get() ) ) {
 		;
 	}
-	pclose( f );
 	return atoi(buf);
 }
 void XBacklight::backlight(int backlight) {
