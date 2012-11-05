@@ -8,15 +8,13 @@ namespace Core {
 	 */
 	class Config {
 		public:
-			static Config* getInstance();
+			Config();
+			~Config();
 			bool verbose();
 
 		private:
 			bool _verbose;
 
-			Config();
-			~Config();
-			static Config *instance;
 	};
 
 }
