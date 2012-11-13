@@ -14,9 +14,11 @@ namespace Core {
 			void parseArguments( int argc, char **argv );
 
 			bool verbose();
+			int delay();
 
 		private:
 			bool _verbose;
+			int _delay;
 
 	};
 

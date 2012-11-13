@@ -6,6 +6,8 @@
 #include "screen/kde.h"
 #include "light/apple.h"
 
+#include <stdexcept>
+
 using namespace Core;
 
 template <class T>
@@ -35,7 +37,7 @@ std::unique_ptr<T> getBackend(std::vector<Core::CreateBackend> backends) {
 		}
 	}
 	if ( !ret ) {
-		throw std::string("No backend is available");
+		throw std::runtime_error("No backend is available");
 	}
 
 	return ret;

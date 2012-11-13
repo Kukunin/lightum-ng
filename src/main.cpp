@@ -19,6 +19,7 @@ int main( int argc, char **argv ) {
 		std::shared_ptr<Config> config(new Config());
 		config->parseArguments(argc, argv);
 
+		//Consider Main class as Loop class
 		Main main(config);
 		main.loop();
 		// Core::BackendManager backendManager;
@@ -42,10 +43,8 @@ int main( int argc, char **argv ) {
 		// } catch ( const char * str ) {
 		// 	std::cerr << "Error:" << str << std::endl;
 		// }
-	} catch( std::string str) {
-		std::cerr << "Global error: " << str << std::endl;
 	} catch( std::exception str) {
-		std::cerr << "Global expcetion" << str.what() << std::endl;
+		std::cerr << "Global expcetion: " << str.what() << std::endl;
 	} catch( ... ) {
 		std::cerr << "Global error without type" << std::endl;
 	}
@@ -55,6 +54,29 @@ int main( int argc, char **argv ) {
 
 Main::Main( std::shared_ptr<Config> config ) {
 	this->config = config;
+	mode = 0;
+
+	//Can't work without lightBackend, so let exception threw
+	lightBackend = backendManager.getLightBackend();
+
+	try {
+		screenBackend = backendManager.getScreenBackend();
+		mode = mode | (int) ScreenMode;
+	} catch ( std::exception e ) {
+		if ( config->verbose() ) {
+			std::cerr << e.what() << std::endl;
+		}
+	}
+
+	try {
+		kbdBackend = backendManager.getKbdBackend();
+		mode = mode | (int) KeyboardMode;
+	} catch ( std::exception e ) {
+		if ( config->verbose() ) {
+			std::cerr << e.what() << std::endl;
+		}
+	}
+
 }
 
 Main::~Main() {
@@ -62,5 +84,14 @@ Main::~Main() {
 }
 
 void Main::loop() {
+
+	while( true ) {
+
+
+		if ( config->verbose() ) {
+			std::cout << "Tick" << std::endl;
+		}
+		usleep( config->delay() * 1000 );
+	}
 
 }

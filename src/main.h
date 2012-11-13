@@ -8,8 +8,14 @@
 #include "backendmanager.h"
 
 #include <memory>
+#include <exception>
 
 namespace Core {
+
+	enum WorkingMode {
+		ScreenMode    = 1,
+		KeyboardMode  = 2
+	};
 
 	class Main {
 		public:
@@ -20,6 +26,12 @@ namespace Core {
 		private:
 			std::shared_ptr<Config> config;
 			BackendManager backendManager;
+
+			std::unique_ptr<Screen::Backend> screenBackend;
+			std::unique_ptr<Light::Backend> lightBackend;
+			std::unique_ptr<Keyboard::Backend> kbdBackend;
+
+			int mode;
 
 	};
 }
