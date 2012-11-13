@@ -36,7 +36,7 @@ namespace Core {
 
 		private:
 
-			std::map<BackendType, std::vector<Core::CreateBackend>> backends;
+			std::map<BackendType, std::vector<CreateBackend>> backends;
 	};
 }
 

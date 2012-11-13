@@ -12,3 +12,7 @@ Config::~Config() {
 bool Config::verbose() {
 	return _verbose;
 }
+
+void Config::parseArguments( int argc, char **argv ) {
+
+}

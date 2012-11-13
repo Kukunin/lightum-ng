@@ -1,34 +1,47 @@
-#include "screen/backend.h"
-#include "light/backend.h"
-#include "kbd/backend.h"
-#include "backendmanager.h"
+#include "main.h"
 
 #include <iostream>
+#include <unistd.h>
 
-int main() {
+using namespace Core;
+
+int main( int argc, char **argv ) {
 
 	try {
-		Core::BackendManager backendManager;
-		try {
-			std::unique_ptr<Light::Backend> light = backendManager.getLightBackend();
-			std::cout << "Current light is " << light->light() << std::endl;
-		} catch ( const char * str) {
-			std::cerr << "Error: " << str << std::endl;
+
+		// make sure we are run as a regular user
+		if (getuid() == 0 || geteuid() == 0) {
+			fprintf(stderr, "lightum must NOT be run as root.\n");
+			exit(1);
 		}
 
-		try {
-			std::unique_ptr<Screen::Backend> screen = backendManager.getScreenBackend();
-			std::cout << "Current backlight is " << screen->backlight() << std::endl;
-		} catch ( const char * str ) {
-			std::cerr << "Error:" << str << std::endl;
-		}
+		//Parse arguments
+		std::shared_ptr<Config> config(new Config());
+		config->parseArguments(argc, argv);
 
-		try {
-			std::unique_ptr<Keyboard::Backend> kbd = backendManager.getKbdBackend();
-			std::cout << "Current keyboard backlight is " << kbd->backlight() << std::endl;
-		} catch ( const char * str ) {
-			std::cerr << "Error:" << str << std::endl;
-		}
+		Main main(config);
+		main.loop();
+		// Core::BackendManager backendManager;
+		// try {
+		// 	std::unique_ptr<Light::Backend> light = backendManager.getLightBackend();
+		// 	std::cout << "Current light is " << light->light() << std::endl;
+		// } catch ( const char * str) {
+		// 	std::cerr << "Error: " << str << std::endl;
+		// }
+
+		// try {
+		// 	std::unique_ptr<Screen::Backend> screen = backendManager.getScreenBackend();
+		// 	std::cout << "Current backlight is " << screen->backlight() << std::endl;
+		// } catch ( const char * str ) {
+		// 	std::cerr << "Error:" << str << std::endl;
+		// }
+
+		// try {
+		// 	std::unique_ptr<Keyboard::Backend> kbd = backendManager.getKbdBackend();
+		// 	std::cout << "Current keyboard backlight is " << kbd->backlight() << std::endl;
+		// } catch ( const char * str ) {
+		// 	std::cerr << "Error:" << str << std::endl;
+		// }
 	} catch( std::string str) {
 		std::cerr << "Global error: " << str << std::endl;
 	} catch( std::exception str) {
@@ -38,4 +51,16 @@ int main() {
 	}
 
 	return 0;
+}
+
+Main::Main( std::shared_ptr<Config> config ) {
+	this->config = config;
+}
+
+Main::~Main() {
+
+}
+
+void Main::loop() {
+
 }

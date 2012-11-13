@@ -10,6 +10,9 @@ namespace Core {
 		public:
 			Config();
 			~Config();
+
+			void parseArguments( int argc, char **argv );
+
 			bool verbose();
 
 		private:
