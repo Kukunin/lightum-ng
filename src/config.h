@@ -15,10 +15,14 @@ namespace Core {
 
 			bool verbose();
 			int delay();
+			int minScreenBacklight();
+			int minKeyboardBacklight();
 
 		private:
 			bool _verbose;
 			int _delay;
+			int _minScreenBacklight;
+			int _minKbdBacklight;
 
 	};
 

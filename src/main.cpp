@@ -22,27 +22,6 @@ int main( int argc, char **argv ) {
 		//Consider Main class as Loop class
 		Main main(config);
 		main.loop();
-		// Core::BackendManager backendManager;
-		// try {
-		// 	std::unique_ptr<Light::Backend> light = backendManager.getLightBackend();
-		// 	std::cout << "Current light is " << light->light() << std::endl;
-		// } catch ( const char * str) {
-		// 	std::cerr << "Error: " << str << std::endl;
-		// }
-
-		// try {
-		// 	std::unique_ptr<Screen::Backend> screen = backendManager.getScreenBackend();
-		// 	std::cout << "Current backlight is " << screen->backlight() << std::endl;
-		// } catch ( const char * str ) {
-		// 	std::cerr << "Error:" << str << std::endl;
-		// }
-
-		// try {
-		// 	std::unique_ptr<Keyboard::Backend> kbd = backendManager.getKbdBackend();
-		// 	std::cout << "Current keyboard backlight is " << kbd->backlight() << std::endl;
-		// } catch ( const char * str ) {
-		// 	std::cerr << "Error:" << str << std::endl;
-		// }
 	} catch( std::exception str) {
 		std::cerr << "Global expcetion: " << str.what() << std::endl;
 	} catch( ... ) {
@@ -87,10 +66,31 @@ void Main::loop() {
 
 	while( true ) {
 
+		int light = lightBackend->light();
 
 		if ( config->verbose() ) {
-			std::cout << "Tick" << std::endl;
+			std::cout << "Tick. Light sensor is " << light << std::endl;
 		}
+
+		if ( mode & (int) ScreenMode ) {
+			//Make sure, that screen backlight is between min and 100 (max backlight);
+			int screen = config->minScreenBacklight() + (light * (100 - config->minScreenBacklight()) / 100);
+			screenBackend->backlight(screen);
+			if ( config->verbose() ) {
+				std::cout << "Screen Backlight is " << screen << std::endl;
+			}
+		}
+
+		if ( mode & (int) KeyboardMode ) {
+			//Make sure, that keyboard backlight is between min and 100 (max backlight);
+			int kbd = config->minKeyboardBacklight() + (light * (100 - config->minKeyboardBacklight()) / 100);
+
+			kbdBackend->backlight(kbd);
+			if ( config->verbose() ) {
+				std::cout << "Keyboard Backlight is " << kbd << std::endl;
+			}
+		}
+
 		usleep( config->delay() * 1000 );
 	}
 

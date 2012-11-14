@@ -4,11 +4,12 @@
 #include <fstream>
 #include <sstream>
 #include <cstdlib>
+#include <cmath>
 
 using namespace Light;
 
 const char * Apple::PATH = "/sys/devices/platform/applesmc.768/light";
-const int Apple::MAXLV = 15;
+const int Apple::MAXLV = 255;
 
 Apple::~Apple() {
 
@@ -39,8 +40,9 @@ int Apple::weight() {
 	return 10;
 }
 
+/* Convert value with exponential function */
 int Apple::convertTo(int light) {
-	return light * 100 / MAXLV;
+	return std::log(light+1)/std::log(MAXLV+1) * 100;
 }
 
 int Apple::parse(std::string value) {
